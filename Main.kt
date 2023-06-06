@@ -250,8 +250,8 @@ fun f492(matrix: Array<Array<Int>>): Array<Array<Int>> {
     val (minRowIndex, minColIndex) = minIndices
     val (maxRowIndex, maxColIndex) = maxIndices
 
-    swapRow(matrix, minRowIndex, maxRowIndex)
-    swapColumn(matrix, minColIndex, maxColIndex)
+    matrix.swapRow(minRowIndex,maxRowIndex)
+    matrix.swapColumn(minColIndex,maxColIndex)
 
     return matrix
 }
@@ -272,8 +272,8 @@ fun f491(matrix: Array<Array<Int>>): Array<Array<Int>> {
     val maxIndices = findElementIndices(matrix, element)
     val (maxRowIndex, maxColIndex) = maxIndices
 
-    swapRow(matrix,0,maxRowIndex)
-    swapColumn(matrix,0,maxColIndex)
+    matrix.swapRow(0,maxRowIndex)
+    matrix.swapColumn(0,maxColIndex)
     return matrix
 }
 fun findMaxElement(matrix: Array<Array<Int>>): Int {
@@ -287,16 +287,16 @@ fun findMaxElement(matrix: Array<Array<Int>>): Int {
     }
     return maxElement
 }
-fun swapRow(matrix: Array<Array<Int>>, row1: Int, row2: Int) {
-    val temp = matrix[row1]
-    matrix[row1] = matrix[row2]
-    matrix[row2] = temp
+fun Array<Array<Int>>.swapRow(row1: Int, row2: Int) {
+    val temp = this[row1]
+    this[row1] = this[row2]
+    this[row2] = temp
 }
-fun swapColumn(matrix: Array<Array<Int>>, col1: Int, col2: Int) {
-    for (i in matrix.indices) {
-        val temp = matrix[i][col1]
-        matrix[i][col1] = matrix[i][col2]
-        matrix[i][col2] = temp
+fun Array<Array<Int>>.swapColumn(col1: Int, col2: Int) {
+    for (i in indices) {
+        val temp = this[i][col1]
+        this[i][col1] = this[i][col2]
+        this[i][col2] = temp
     }
 }
 fun findMinElement(matrix: Array<Array<Int>>): Int {
