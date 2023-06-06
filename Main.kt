@@ -140,7 +140,7 @@ fun f500(matrix: Array<Array<Int>>): Double {
     return if (count > 0) sum / count else 0.0
 }
 fun f499(matrix: Array<Array<Int>>) {
-    val element = (findMinElement(matrix)+findMaxElement(matrix))/2
+    val element = (matrix.findMinElement()+matrix.findMaxElement())/2
     val matrixList = matrix.flatten()
 
     for (i in matrixList.indices) {
@@ -233,19 +233,19 @@ fun f494(matrix: Array<Array<Int>>): Array<Array<Int>> {
     return newMatrix
 }
 fun f493(matrix: Array<Array<Int>>): Array<Array<Int>> {
-    val max = findMaxElement(matrix)
+    val max = matrix.findMaxElement()
 
-    val maxIndices = findElementIndices(matrix, max)
+    val maxIndices = matrix.findElementIndices(max)
     val (maxRowIndex, maxColIndex) = maxIndices
 
-    return createMatrixWithoutRowAndColumn(matrix, maxRowIndex,maxColIndex)
+    return matrix.createMatrixWithoutRowAndColumn(maxRowIndex,maxColIndex)
 }
 fun f492(matrix: Array<Array<Int>>): Array<Array<Int>> {
-    val min = findMinElement(matrix)
-    val max = findMaxElement(matrix)
+    val min = matrix.findMinElement()
+    val max = matrix.findMaxElement()
 
-    val minIndices = findElementIndices(matrix, min)
-    val maxIndices = findElementIndices(matrix, max)
+    val minIndices = matrix.findElementIndices(min)
+    val maxIndices = matrix.findElementIndices(max)
 
     val (minRowIndex, minColIndex) = minIndices
     val (maxRowIndex, maxColIndex) = maxIndices
@@ -256,10 +256,10 @@ fun f492(matrix: Array<Array<Int>>): Array<Array<Int>> {
     return matrix
 }
 
-fun findElementIndices(matrix: Array<Array<Int>>, element: Int): Pair<Int, Int> {
-    for (i in matrix.indices) {
-        for (j in matrix[i].indices) {
-            if (matrix[i][j] == element) {
+fun Array<Array<Int>>.findElementIndices(element: Int): Pair<Int, Int> {
+    for (i in indices) {
+        for (j in this[i].indices) {
+            if (this[i][j] == element) {
                 return i to j
             }
         }
@@ -267,18 +267,18 @@ fun findElementIndices(matrix: Array<Array<Int>>, element: Int): Pair<Int, Int> 
     return -1 to -1
 }
 fun f491(matrix: Array<Array<Int>>): Array<Array<Int>> {
-    val element = findMaxElement(matrix)
+    val element = matrix.findMaxElement()
 
-    val maxIndices = findElementIndices(matrix, element)
+    val maxIndices = matrix.findElementIndices(element)
     val (maxRowIndex, maxColIndex) = maxIndices
 
     matrix.swapRow(0,maxRowIndex)
     matrix.swapColumn(0,maxColIndex)
     return matrix
 }
-fun findMaxElement(matrix: Array<Array<Int>>): Int {
+fun Array<Array<Int>>.findMaxElement(): Int {
     var maxElement = Int.MIN_VALUE
-    for (row in matrix) {
+    for (row in this) {
         for (element in row) {
             if (element > maxElement) {
                 maxElement = element
@@ -299,9 +299,9 @@ fun Array<Array<Int>>.swapColumn(col1: Int, col2: Int) {
         this[i][col2] = temp
     }
 }
-fun findMinElement(matrix: Array<Array<Int>>): Int {
+fun Array<Array<Int>>.findMinElement(): Int {
     var minElement = Int.MAX_VALUE
-    for (row in matrix) {
+    for (row in this) {
         for (element in row) {
             if (element < minElement) {
                 minElement = element
@@ -310,22 +310,21 @@ fun findMinElement(matrix: Array<Array<Int>>): Int {
     }
     return minElement
 }
-
-fun createMatrixWithoutRowAndColumn(matrix: Array<Array<Int>>, row: Int, col: Int): Array<Array<Int>> {
-    val numRows = matrix.size
-    val numCols = matrix[0].size
+fun Array<Array<Int>>.createMatrixWithoutRowAndColumn(row: Int, col: Int): Array<Array<Int>> {
+    val numRows = size
+    val numCols = get(0).size
 
     val newMatrix = Array(numRows - 1) { Array(numCols - 1) { 0 } }
 
     var newRow = 0
-    for (i in matrix.indices) {
+    for (i in indices) {
         if (i == row) continue
 
         var newCol = 0
-        for (j in matrix[i].indices) {
+        for (j in this[i].indices) {
             if (j == col) continue
 
-            newMatrix[newRow][newCol] = matrix[i][j]
+            newMatrix[newRow][newCol] = this[i][j]
             newCol++
         }
         newRow++
